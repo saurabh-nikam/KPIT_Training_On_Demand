@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Admin Edit Course</title>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/create_new_request.css' %}">
+
+<style>
+
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, "Helvetica Neue", Oxygen, Cantarell, sans-serif; padding:12px}
+
+input[type="text"], input[type="date"] {
+  height: 25px;
+  border-radius: 4px;
+  border: 1px solid #dedede;
+  padding-left: 8px;
+}
+button {
+  height: 35px;
+  border-radius: 4px;
+  border: 1px solid #dedede;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+select {
+  height: 25px;
+  border-radius: 4px;
+  border: 1px solid #dedede;
+  min-width: 150px;
+  padding-left: 8px;
+}
+
+
+
+.flex {
+  display: flex;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-center {
+  justify-content: center;
+}
+
+.bb-gray {
+  border-bottom: 1px solid #dedede;
+}
+
+.color-blue {
+  color: blue;
+}
+.color-red {
+  color: red;
+}
+
+.pb-4 {
+  padding-bottom: 4px;
+}
+.mb-8 {
+  margin-bottom: 8px;
+}
+.mb-16 {
+  margin-bottom: 16px;
+}
+.mb-32 {
+  margin-bottom: 32px;
+}
+.mr-16 {
+  margin-right: 16px;
+}
+
+.bold {
+  font-weight: 600;
+}
+.required-label * {
+  color: 'red';
+}
+.required-label::after {
+  content:'*';
+  color: red;
+}
+.input-section {
+  margin-right: 32px;
+}
+.create-request {
+ width: fit-content;
+ margin: auto;
+}
+@media only screen and (min-width: 768px) {
+  .md-flex {
+    display: flex;
+  }
+  .md-mb-32 {
+    margin-bottom: 32px;
+  }
+}
+</style>
+
+<script>
+        function add(){
+          if(parseInt($('#total_chq').val()) <=2) //restrinting the size of add to 6
+          {
+              var new_chq_no = parseInt($('#total_chq').val())+1;
+            console.log(new_chq_no);
+            var new_input="<input type='text' id='new_"+new_chq_no+"' placeholder='Course Title' >";
+            var new_input2="<input type='text' id='new2_"+new_chq_no+"' placeholder='Course id'>";
+            $('#course_title').append(new_input);
+            $('#course_id').append(new_input2);
+            $('#total_chq').val(new_chq_no)
+          }
+          
+        }
+        function remove(){
+          var last_chq_no = $('#total_chq').val();
+          console.log(last_chq_no);
+          if(last_chq_no>0){
+            $('#new_'+last_chq_no).remove();
+            $('#new2_'+last_chq_no).remove();
+            $('#total_chq').val(last_chq_no-1); 
+          }
+        }
+</script>
+</head>
+
+<body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+  <form class="create-request" method="POST">
+  {% csrf_token %}  
+    <h1 class="bb-gray pb-4 mb32" style="color:#00cc00;">Admin Edit Course</h1>
+  
+    <div class="bold bb-gray pb-4 mb-16">Request Id: {{req.reqno}}</div>
+
+    <div class="flex mb-32">
+        <div class="input-section">
+            <div class="required-label mb-8"> Requested Course Code </div>
+            <input type="text" value="{{req.courcecode}}" name="req-course-code" disabled />
+        </div>
+    </div>
+     <div class="flex mb-32">
+        <div class="input-section">
+            <div class="required-label mb-8"> Requested Course Title </div>
+            <input type="text" value="{{req.title}}" name="req-course-title" disabled />
+        </div>
+    </div>
+
+    {% comment %} <div class="flex mb-32" >
+      <button class="mr-16" style="color:green" type="submit">Add Course</button>
+    </div> {% endcomment %}
+
+    <div class="flex mb-32">
+        <div class="input-section">
+            <div class="required-label mb-8"> Eduonline Course Title 
+            <input required type="text" name="first-course-title" id="first-course-title" />
+            </div>
+        </div>
+    
+        <div class="input-section">
+            <div class="required-label mb-8"> Eduonline Course Code 
+            <input required type="text" name="first-course-code" id="first-course-code" readonly />
+          </div>
+        </div>   
+    </div>
+
+
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <div>
+      <div class="flex justify-center" >
+        <button style="color:green;margin:5px" onclick="add()">Add More Courses</button>
+        <button style="color:red;margin:5px" onclick="remove()">remove</button>
+      </div>
+     <div id="course_title" style="margin:5px"></div><div id="course_id" style="margin:5px"></div>
+    <input type="hidden" value="1" id="total_chq">
+   </div> 
+
+    <div class="flex justify-center" style="margin:10px">
+      <button class="mr-16 " style="color:green" type="submit">Update Course</button>
+      <button style="color:red" onclick="window.location='/training_on_demand/admin_approval/';return false;">Cancel</button>
+    </div>
+  </form>
+  <script>
+      $(function () {
+          var course_title = [
+              {% for course_info in course %}
+                  "{{course_info.display_name}}|{{course_info.id}}",
+              {% endfor %}	
+          ];
+          $("#new-course-title").autocomplete({
+              source: course_title,
+              select: function(event, ui) {
+                  var course_id = ui.item.label.split('|')[1];
+                  var course_title = ui.item.label.split('|')[0];
+                  $("#new-course-code").val(course_id);
+                  $("#new-course-title").val(course_title);
+                  return false;
+              }
+	  });
+    });
+  </script>
+</body>
+</html>

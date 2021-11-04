@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <title>Pop upss</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+    * {
+      font-family: "Roboto";
+    }
+
+    body {
+      background-color: #F5F5F5;
+    }
+
+    form {
+      background-color: #FFFFFF;
+      padding: 25px;
+    }
+
+    table {
+      width: 100%;
+      text-align: center;
+      margin-top: 25px;
+      padding: 25px;
+      background-color: #FFFFFF;
+    }
+
+    table tr td {
+      padding-top: 15px;
+    }
+  </style>
+</head>
+
+<body>
+  <center>
+    <h1>Pop up Tables content</h1>
+  </center>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+
+
+  <!-- Button trigger modal -->
+  <div style="margin-left: 15px;padding: 2px;">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Add Commets
+    </button>
+  </div>
+
+
+
+
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Commets</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="container">
+            <form method="post" action="/hello/popup/">
+              {% csrf_token %}
+              <!-- <div class="form-group">
+                <label for="email">Enter ur email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+              </div>
+              <div class="form-group">
+                <label for="name">Enter ur name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter name">
+              </div>
+              <div class="form-group">
+                <label for="phone">Enter ur phone</label>
+                <input type="n" class="form-control" id="phone" name="phone" placeholder="phone">
+              </div> -->
+             
+              <!-- <div class="mx-md-n1" style="margin-left: 15px;padding: 5px;" >
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+              </div> -->
+              <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+                <input type='text' id='course_id1'> <input type='text' id='course_title1'>
+                <button style="color:green" onclick="add()">Add</button>
+                <button style="color:red" onclick="remove()">remove</button>
+                <div id="new_chq"></div><div id="course_title"></div>
+                <input type="hidden" value="1" id="total_chq">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Status</th>
+            <th scope="col">Commets</th>
+            <th scope="col">date of Upload</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for file in files %}
+          <tr>
+            <td>{{ file.id }}</td>
+            <td>{{ file.status }}</td>
+            <td>{{ file.comment }}</td>
+            <td>{{ file.dateTimeOfUpload }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <script>
+          
+          function add(){
+            if(parseInt($('#total_chq').val()) <=3) //restrinting the size of add to 6
+            {
+                var new_chq_no = parseInt($('#total_chq').val())+1;
+              console.log(new_chq_no);
+              var new_input="<input type='text' id='new_"+new_chq_no+"'>";
+              var new_input2="<input type='text' id='new2_"+new_chq_no+"'>";
+              $('#new_chq').append(new_input);
+              $('#course_title').append(new_input2);
+              $('#total_chq').val(new_chq_no)
+            }
+            
+          }
+          function remove(){
+            var last_chq_no = $('#total_chq').val();
+            console.log(last_chq_no);
+            if(last_chq_no>0){
+              $('#new_'+last_chq_no).remove();
+              $('#new2_'+last_chq_no).remove();
+              $('#total_chq').val(last_chq_no-1); 
+            }
+          }
+    </script>
+      
+</body>
+
+</html>
